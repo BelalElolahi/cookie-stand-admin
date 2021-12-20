@@ -1,82 +1,99 @@
 import Head from 'next/head'
-
+import Header from '../compoments/Header'
+import Footer from '../compoments/Footer'
+import {useState} from 'react'
 export default function Home() {
+  
+  const [show, setShow] = useState('')
+  const [location, setlocation] = useState('')
+  const [min, setmin] = useState(0)
+  const [max, setmax] = useState(0)
+  const [avg, setavg] = useState(0)
+  const [Branches, setBranch] = useState([])
+
+
+  function formHandler(event) {
+    event.preventDefault()
+
+
+
+    const Branche = {
+      location: event.target.location.value,
+      minCustomers: event.target.min.value,
+      maxCustomers: event.target.max.value,
+      avgCookies: event.target.avg.value
+    }
+
+
+
+    setShow((show) => {
+      return JSON.stringify(Branche)
+    })
+    setlocation(() => {
+      return Branche.location
+    })
+    setmin(() => {
+      return Branche.min
+    })
+    setmax(() => {
+      return Branche.max
+    })
+    setavg(() => {
+      return Branche.avg
+    })
+
+
+    setBranch((Branches) => {
+      Branches.push(Branche)
+      return Branches
+    });
+
+  }
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
+    <div className="flex flex-col justify-center min-h-screen py-2">
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Header></Header>
+      <main className="flex flex-col items-center justify-center flex-1 w-full px-20 text-center">
+        <div>
+          <form className='p-6 bg-green-300 rounded-2xl' onSubmit={formHandler} >
+            <h2>Create Cookie Stand</h2>
+            <label>location</label>
+            <input type="text" name='location' className='w-9/12 my-3 bg-gray-200' placeholder={location} ></input>
+            <div className='flex flex-row'>
+              <div className='flex flex-col p-3'>
+                <label>Minimum customer per Hour</label>
+                <input type="number" name='min' className='bg-white' placeholder={min} ></input>
+              </div>
+              <div className='flex flex-col p-3'>
+                <label>Maximum customer per Hour</label>
+                <input type="number" name='max' className='bg-white' placeholder={max} ></input>
+              </div>
+              <div className='flex flex-col p-3'>
+                <label>Avarage Cookies per sale</label>
+                <input type="number" name='avg' className='bg-white' step='.1' placeholder={avg}></input>
+              </div>
+              <div className='flex flex-col px-3 '>
+                <button className='px-8 py-4 bg-green-600' type="submit" >create</button>
+              </div>
+            </div>
 
-      <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-        <h1 className="text-6xl font-bold">
-          Welcome to{' '}
-          <a className="text-blue-600" href="https://nextjs.org">
-            Next.js!
-          </a>
-        </h1>
+          </form>
+          <br />
+          <p>
+            Report Table Coming Soon...
+          </p>
+          <br />
 
-        <p className="mt-3 text-2xl">
-          Get started by editing{' '}
-          <code className="p-3 font-mono text-lg bg-gray-100 rounded-md">
-            pages/index.js
-          </code>
-        </p>
-
-        <div className="flex flex-wrap items-center justify-around max-w-4xl mt-6 sm:w-full">
-          <a
-            href="https://nextjs.org/docs"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Documentation &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Find in-depth information about Next.js features and API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Learn &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Learn about Next.js in an interactive course with quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Examples &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Discover and deploy boilerplate example Next.js projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Deploy &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+        </div>
+        <div>
+          <p>{show}</p>
         </div>
       </main>
+      <Footer></Footer>
 
-      <footer className="flex items-center justify-center w-full h-24 border-t">
-        <a
-          className="flex items-center justify-center"
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className="h-4 ml-2" />
-        </a>
-      </footer>
     </div>
   )
 }
